@@ -1,0 +1,27 @@
+# Virtual environment — never commit this
+venv/
+
+# API keys and secrets — never commit these
+config/.env
+.env
+*.env
+
+# BSE PDF data — raw files
+data/raw/
+data/processed/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/settings.json
