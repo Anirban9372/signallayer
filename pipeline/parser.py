@@ -1,6 +1,22 @@
 from pathlib import Path  # best pathway manager
-# main class it allows to read documents
-from docling.document_converter import DocumentConverter
+import sys
+import os
+
+try:
+    # main class it allows to read documents
+    from docling.document_converter import DocumentConverter
+except ImportError:
+    # If docling is not in the current environment, try to load it from the venv
+    # We assume the venv is located at ../venv relative to this file
+    base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    venv_site_packages = os.path.join(
+        base_path, 'venv', 'lib', f'python{sys.version_info.major}.{sys.version_info.minor}', 'site-packages')
+    if os.path.exists(venv_site_packages):
+        sys.path.insert(0, venv_site_packages)
+        from docling.document_converter import DocumentConverter
+    else:
+        # If we still can't find it, re-raise the exception to alert the user
+        raise
 
 
 class BSEparser:
@@ -21,5 +37,3 @@ class BSEparser:
             in __init__ means we pay that cost once, not for every PDF.
             """
         self.converter = DocumentConverter()
-
-        def
