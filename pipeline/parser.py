@@ -37,3 +37,28 @@ class BSEparser:
             in __init__ means we pay that cost once, not for every PDF.
             """
         self.converter = DocumentConverter()
+
+    def parse_pdf(self, pdf_path: str) -> str:
+        """
+        Parse a BSE PDF and return clean markdown text.
+
+        Args:
+            pdf_path: Path to the PDF file.
+
+        Returns:
+            Markdown string with tables and headings preserved.
+
+        Raises:
+            FileNotFoundError: If the PDF does not exist.
+            ValueError: If the file is not a PDF.
+        """
+        path = Path(pdf_path)
+
+        if not path.exists():
+            raise FileNotFoundError(f"PDF not found: {pdf_path}")
+
+        if path.suffix.lower() != ".pdf":
+            raise ValueError(f"Expected .pdf file, got: {path.suffix}")
+
+        result = self.converter.convert(str(path))
+        return result.document.export_to_markdown()
