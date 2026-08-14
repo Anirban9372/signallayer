@@ -62,3 +62,31 @@ class BSEparser:
 
         result = self.converter.convert(str(path))
         return result.document.export_to_markdown()
+
+
+def extract_tables(self, pdf_path: str) -> list[str]:
+    """
+    Extract only the tables from a BSE PDF.
+
+    BSE announcements contain key financial data in tables:
+    quarterly results, shareholding patterns, dividend details.
+    This method isolates just those tables for targeted analysis.
+
+    Args:
+        pdf_path: Path to the PDF file.
+
+    Returns:
+        List of tables as markdown strings. Empty list if no tables.
+    """
+    path = Path(pdf_path)
+
+    if not path.exists():
+        raise FileNotFoundError(f"PDF not found: {pdf_path}")
+
+    result = self.converter.convert(str(path))
+
+    tables = []
+    for table in result.document.tables:
+        tables.append(table.export_to_dataframe().to_markdown())
+
+    return tables
